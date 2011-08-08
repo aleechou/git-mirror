@@ -6,18 +6,19 @@
 //							'remote2_path'
 //					)
 $mirror_list=array(
-		''=>array (
+		'your sync name' => array (
 				'https://github.com/lexdene/Dlut-Game-Platform.git',
 				'elephant@lxj.local.com:~/Dlut-Game-Platform.git'
 			) ,
 );
-foreach($mirror_list as $local_tmp_path => $remote_path_list)
+
+$temp_local_repo_dir = '/tmp/git-mirror' ;
+
+
+foreach($mirror_list as $sync_name => $remote_path_list)
 {
-	echo "$local_tmp_path\n";
-	if( is_int($local_tmp_path) || empty($local_tmp_path))
-	{
-		$local_tmp_path="/tmp/git-mirror/$local_tmp_path";
-	}
+	$local_tmp_path = $temp_local_repo_dir.'/'. md5(implode('>','$remote_path_list')) ;
+
 	foreach($remote_path_list as $remote_path)
 	{
 		$remote_branch_list=`git ls-remote -h $remote_path | sed -n 's#^.*refs/heads/##p'`;
